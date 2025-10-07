@@ -1,19 +1,33 @@
-<p align="center"><img src="https://raw.githubusercontent.com/offalynne/input/main/LOGO.png" style="display:block; margin:auto; width:300px"></p>
+# Localization Input Plug-in
 
-<h1 align="center">Input 10.2.2</h1>
+Keyboard layout localization for [Input for GameMaker 2024.8](https://github.com/offalynne/Input).
 
-<p align="center">Comprehensive cross-platform input for GameMaker 2024.13 by <a href="https://www.jujuadams.com/" target="_blank">Juju Adams</a>, <a href="https://offalynne.neocities.org/">Alynne Keith</a>, and <a href="https://offalynne.github.io/Input/#/10.2/Credits">Friends</a></p>
+### API
 
-&nbsp;
+```
+InputLocalizeGetLocale() // Returns enum, user's keyboard locale
 
-&nbsp;
+InputLocalizeBinding( // Returns a localized binding
+  binding,            // Binding, a virtual key constant
+  [locale])           // Enum, keyboard locale. If unspecified, user's locale is used
 
-- ### [Download the .yymps](https://github.com/offalynne/input/releases/)
-- ### Read the [documentation](https://offalynne.github.io/Input/)
-- ### Browse [additional plug-ins](https://www.gamemakerkitchen.com/libraries/offalynne/input/plugins/)
-- ### Talk about Input on the [Discord server](https://discord.gg/s6NjaV8AnM )
-- ### You may also like [Firehammer](https://firehammergames.itch.io/firehammer-input) and [Input Dog](https://github.com/messhof/Input-Dog)
+enum INPUT_KEYBOARD_LOCALE
+  .QWERTY // English Latin key layout
+  .AZERTY // Selective French key layout 
+  .QWERTZ // Central European key layout  
+```
 
-&nbsp;
+### Example Usage
 
-<p align="center">Looking for Input 8 for GameMaker LTS 2022? <a href="https://github.com/offalynne/Input/tree/dev_8.1">Code</a>, <a href="https://offalynne.github.io/Input/#/8.1/">Documentation</a>, <a href="https://github.com/offalynne/Input/releases/tag/8.1.4">Release (.yymps)</a></p>
+```
+//Set localized key definitions
+InputDefineVerb(INPUT_VERB.WALK_FORWARD, "forward", InputLocalizeBinding("W"), -gp_axislv);
+InputDefineVerb(INPUT_VERB.STRAFE_LEFT,  "left",    InputLocalizeBinding("A"), -gp_axislh);
+InputDefineVerb(INPUT_VERB.WALK_BACK,    "back",    InputLocalizeBinding("S"),  gp_axislv);
+InputDefineVerb(INPUT_VERB.STRAFE_RIGHT, "right",   InputLocalizeBinding("D"),  gp_axislh);
+InputDefineVerb(INPUT_VERB.INTERACT,     "use",     InputLocalizeBinding("E"),  gp_face1 );
+```
+
+***NB: Per limitations of GM Runner application, plug-in always returns static OS region-default layout***
+
+### **[Download (.yymps)](https://github.com/offalynne/InputPlugin-Localization/releases)**
