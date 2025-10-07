@@ -8,6 +8,8 @@ enum INPUT_KEYBOARD_LOCALE
     __SIZE,
 }
 
+InputPlugInDefine("Alynne.Localization", "alynne", "1.0", "10.0", function(){ return; });
+
 __InputLocalizeSystem();
 function __InputLocalizeSystem()
 {
@@ -49,11 +51,8 @@ function __InputLocalizeSystem()
             break;
         }
 
-        //Set localisation map
-        repeat (INPUT_KEYBOARD_LOCALE.__SIZE)
-        {
-            array_push(__localeKeycodeMapArray, ds_map_create());
-        }
+        //Set localisation maps
+        repeat (INPUT_KEYBOARD_LOCALE.__SIZE) array_push(__localeKeycodeMapArray, ds_map_create());
 
         //AZERTY ';' -> 'M' -> ',' -> ';'
         __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.AZERTY][? vk_semicolon] = ord("M");
@@ -71,9 +70,6 @@ function __InputLocalizeSystem()
         //QWERTZ 'Y' <-> 'Z'
         __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.QWERTZ][? ord("Y")] = ord("Z");
         __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.QWERTZ][? ord("Z")] = ord("Y");
-        
-        //Circumvent plug-in registry to avoid pre-init error...
-        __InputTrace("Using Alynne.Localization");
     }
     
     return _system;
