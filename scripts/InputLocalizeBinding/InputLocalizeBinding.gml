@@ -1,6 +1,6 @@
 // Feather disable all
 
-function InputLocalizeBinding(_binding, _locale = undefined)
+function InputLocalizeBinding(_binding, _localeInput = INPUT_KEYBOARD_LOCALE.QWERTY, _localeOutput = undefined)
 {
     static _system = __InputLocalizeSystem();
 
@@ -9,10 +9,20 @@ function InputLocalizeBinding(_binding, _locale = undefined)
         _binding = ord(_binding);
     }
 
-    if (_locale == undefined)
+    if (_localeInput == _localeOutput)
     {
-        _locale = InputLocalizeGetLocale();
+        return _binding;
     }
 
-    return _system.__localeKeycodeMapArray[_locale][? _binding] ?? _binding;
+    if (_localeOutput == undefined)
+    {
+        _localeOutput = InputLocalizeGetLocale();
+    }
+
+    if (_localeInput != INPUT_KEYBOARD_LOCALE.QWERTY)
+    {
+        _binding = _system.__localeKeycodeToQWERTYArray[_localeInput][? _binding] ?? _binding;
+    }
+
+    return _system.__localeQWERTYtoKeycodeArray[_localeOutput][? _binding] ?? _binding;
 }
