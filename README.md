@@ -21,10 +21,11 @@ enum INPUT_KEYBOARD_LOCALE
 
 ```
 //Set localized key definitions
-InputDefineVerb(INPUT_VERB.WALK_FORWARD, "up",    InputLocalizeBinding("W"), -gp_axislv);
-InputDefineVerb(INPUT_VERB.STRAFE_LEFT,  "left",  InputLocalizeBinding("A"), -gp_axislh);
-InputDefineVerb(INPUT_VERB.WALK_BACK,    "down",  InputLocalizeBinding("S"),  gp_axislv);
-InputDefineVerb(INPUT_VERB.STRAFE_RIGHT, "right", InputLocalizeBinding("D"),  gp_axislh);
+InputDefineVerb(INPUT_VERB.WALK_FORWARD, "forward", InputLocalizeBinding("W"), -gp_axislv);
+InputDefineVerb(INPUT_VERB.STRAFE_LEFT,  "left",    InputLocalizeBinding("A"), -gp_axislh);
+InputDefineVerb(INPUT_VERB.WALK_BACK,    "back",    InputLocalizeBinding("S"),  gp_axislv);
+InputDefineVerb(INPUT_VERB.STRAFE_RIGHT, "right",   InputLocalizeBinding("D"),  gp_axislh);
+InputDefineVerb(INPUT_VERB.INTERACT,     "use",     InputLocalizeBinding("E"),  gp_face1 );
 ```
 
 ***NB: Per limitations of GM Runner application, plug-in always returns static OS region-default layout***
