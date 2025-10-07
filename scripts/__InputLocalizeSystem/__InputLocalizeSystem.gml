@@ -8,7 +8,7 @@ enum INPUT_KEYBOARD_LOCALE
     __SIZE,
 }
 
-InputPlugInDefine("Alynne.Localization", "alynne", "1.0", "10.0", function(){ return; });
+InputPlugInDefine("Alynne.Localization", "alynne", "1.1", "10.0", function(){ return; });
 
 __InputLocalizeSystem();
 function __InputLocalizeSystem()
@@ -19,7 +19,8 @@ function __InputLocalizeSystem()
     _system = {};
     with(_system)
     {        
-        __localeKeycodeMapArray = [];
+        __localeKeycodeToQWERTYArray = [];
+        __localeQWERTYtoKeycodeArray = [];
         __locale = undefined;
         
         //Set locale per ISO 639-1 and ISO 3166-1
@@ -52,24 +53,38 @@ function __InputLocalizeSystem()
         }
 
         //Set localisation maps
-        repeat (INPUT_KEYBOARD_LOCALE.__SIZE) array_push(__localeKeycodeMapArray, ds_map_create());
+        repeat (INPUT_KEYBOARD_LOCALE.__SIZE)
+        {
+            array_push(__localeKeycodeToQWERTYArray, ds_map_create());
+            array_push(__localeQWERTYtoKeycodeArray, ds_map_create());
+        }
 
-        //AZERTY ';' -> 'M' -> ',' -> ';'
-        __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.AZERTY][? vk_semicolon] = ord("M");
-        __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.AZERTY][? ord("M")    ] = vk_comma;
-        __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.AZERTY][? vk_comma    ] = vk_semicolon;
+        var _SetLocaleMapping = function(_locale, _keycodeArray)
+        {
+            var _keycodeInput  = undefined;
+            var _keycodeOutput = undefined;
 
-        //AZERTY 'Q' <-> 'A'
-        __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.AZERTY][? ord("Q")] = ord("A");
-        __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.AZERTY][? ord("A")] = ord("Q");
+            var _i = 0;
+            var _length = array_length(_keycodeArray);
+            repeat(_length)
+            {
+                _keycodeInput  = _keycodeArray[_i];
+                _keycodeOutput = _keycodeArray[(_i + 1) mod _length];
 
-        //AZERTY 'W' <-> 'Z'
-        __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.AZERTY][? ord("W")] = ord("Z");
-        __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.AZERTY][? ord("Z")] = ord("W");
+                if (is_string(_keycodeInput )) _keycodeInput  = ord(_keycodeInput);
+                if (is_string(_keycodeOutput)) _keycodeOutput = ord(_keycodeOutput);
 
-        //QWERTZ 'Y' <-> 'Z'
-        __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.QWERTZ][? ord("Y")] = ord("Z");
-        __localeKeycodeMapArray[@ INPUT_KEYBOARD_LOCALE.QWERTZ][? ord("Z")] = ord("Y");
+                __localeQWERTYtoKeycodeArray[@ _locale][? _keycodeInput ] = _keycodeOutput;
+                __localeKeycodeToQWERTYArray[@ _locale][? _keycodeOutput] = _keycodeInput;
+
+                ++_i;
+            }
+        }
+
+        _SetLocaleMapping(INPUT_KEYBOARD_LOCALE.QWERTZ, ["Y", "Z"]);
+        _SetLocaleMapping(INPUT_KEYBOARD_LOCALE.AZERTY, ["Q", "A"]);
+        _SetLocaleMapping(INPUT_KEYBOARD_LOCALE.AZERTY, ["W", "Z"]);
+        _SetLocaleMapping(INPUT_KEYBOARD_LOCALE.AZERTY, [vk_semicolon, "M", vk_comma]);
     }
     
     return _system;
