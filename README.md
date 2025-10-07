@@ -8,8 +8,9 @@ Keyboard layout localization for [Input for GameMaker 2024.8](https://github.com
 InputLocalizeGetLocale() // Returns enum, user's keyboard locale
 
 InputLocalizeBinding( // Returns a localized binding
-  binding,            // Binding, a virtual key constant from QWERTY layout
-  [locale])           // Enum, destination locale. User's locale, if undefined
+  binding,            // Key bind
+  [localeInput],      // Enum, source locale. INPUT_KEYBOARD_LOCALE.QWERTY, if undefined
+  [localeOutput])     // Enum, destination locale. User's locale, if undefined
 
 enum INPUT_KEYBOARD_LOCALE
   .QWERTY // English Latin key layout
@@ -20,7 +21,7 @@ enum INPUT_KEYBOARD_LOCALE
 ### Example Usage
 
 ```
-//Set localized key definitions
+// Set localized key definitions
 InputDefineVerb(INPUT_VERB.WALK_FORWARD, "forward", InputLocalizeBinding("W"), -gp_axislv);
 InputDefineVerb(INPUT_VERB.STRAFE_LEFT,  "left",    InputLocalizeBinding("A"), -gp_axislh);
 InputDefineVerb(INPUT_VERB.WALK_BACK,    "back",    InputLocalizeBinding("S"),  gp_axislv);
