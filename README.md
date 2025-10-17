@@ -26,9 +26,8 @@ InputDefineVerb(INPUT_VERB.WALK_FORWARD, "forward", InputLocalizeBinding("W"), -
 InputDefineVerb(INPUT_VERB.STRAFE_LEFT,  "left",    InputLocalizeBinding("A"), -gp_axislh);
 InputDefineVerb(INPUT_VERB.WALK_BACK,    "back",    InputLocalizeBinding("S"),  gp_axislv);
 InputDefineVerb(INPUT_VERB.STRAFE_RIGHT, "right",   InputLocalizeBinding("D"),  gp_axislh);
-InputDefineVerb(INPUT_VERB.INTERACT,     "use",     InputLocalizeBinding("E"),  gp_face1 );
 ```
 
-***NB: Per limitations of GM Runner application, plug-in always returns static OS region-default layout***
+***NB: Per limitations of GM Runner application, plug-in returns static OS region-default (locale) layout***
 
 ### **[Download (.yymps)](https://github.com/offalynne/InputPlugin-Localization/releases)**
